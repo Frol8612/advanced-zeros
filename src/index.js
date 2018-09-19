@@ -1,49 +1,35 @@
 module.exports = function getZerosCount(number, base) {
-  // your implementation
-  var zero = 0,
-      j = 2,
-      pow = base,
-      num = number,
-      z = 0,
-      arr = [],
-      res = {},
-      zeroArr = [],
-      keyArr = [];
+    // your implementation
+    let j = 2;
+    let res = {};
 
-  while(j <= pow) {
-  if (pow % j == 0) { 
-    pow = pow / j; 
-    arr.push(j);
-    j = 2;
-    continue;
-  }
-    j++;
-  }
-
-  for (var i = 0; i < arr.length; ++i)  {
-    var a = arr[i];
-    if (res[a] != undefined)
-      ++res[a];
-    else
-      res[a] = 1;
-  } 
-
-  for (var key in res) {
-    keyArr.push(key);
-    while (num > 1) {
-      zero += Math.floor(num / keyArr[z]);
-      num /= keyArr[z];  
-    }    
-
-    if (z != z.length -1) {
-      num = number;
-      z++;
+    while (j <= base) {
+        if (base % j === 0) {
+            base = base / j;
+            if (res[j] !== undefined) {
+                res[j]++;
+            } else {
+                res[j] = 1;
+            }
+            j = 2;
+        } else {
+            j++;
+        }
     }
 
-    zeroArr.push(Math.floor(zero / res[key]));
-    zero = 0;
-  }
-   
+    let num = number;
+    let zero = 0;
+    let zeroArr = [];
 
-  return Math.min.apply(null, zeroArr);
-}
+    for (let key in res) {
+        while (num > 1) {
+            zero = zero + ~~(num / key);
+            num = num / key;
+        }
+        num = number;
+        zeroArr.push(~~(zero / res[key]));
+        zero = 0;
+    }
+
+    return Math.min.apply(null, zeroArr);
+};
